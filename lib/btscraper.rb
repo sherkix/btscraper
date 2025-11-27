@@ -3,7 +3,7 @@
 
 module BTScraper
   # @!visibility private
-  VERSION = '0.0.1'
+  VERSION = '0.1.0'
 
   # Base class for exceptions
   class BTScraperError < StandardError
