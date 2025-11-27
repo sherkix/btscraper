@@ -1,0 +1,6 @@
+.env
+*.lock
+.ruby-lsp/
+*.gem
+.yardoc/
+doc/
