@@ -1,6 +1,8 @@
+require_relative 'lib/btscraper/version'
+
 Gem::Specification.new do |s|
   s.name        = 'btscraper'
-  s.version     = '0.1.0'
+  s.version     = BTScraper::VERSION
   s.summary     = 'Scrape library for bittorrent trackers'
   s.description = 'btscraper is a simple ruby library that allows to retrieve the state of a torrent from a tracker'
   s.authors     = ['Sherkix']
