@@ -1,4 +1,4 @@
-require_relative 'lib/btscraper/version'
+require_relative 'lib/btscraper'
 
 Gem::Specification.new do |s|
   s.name        = 'btscraper'
