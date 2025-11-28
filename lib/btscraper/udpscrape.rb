@@ -69,8 +69,8 @@ module BTScraper
     end
     # @example Response example
     #  {tracker: "udp://example.com:3000/announce", scraped_data: [{infohash: "c22b5f9178342609428d6f51b2c5af4c0bde6a42", seeders: 20, completed: 1000, leechers: 30}, {infohash: "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d", seeders: 350, completed: 12000, leechers: 23}]}
-    # @return [Hash] The method returns an hash with the scraped data
-    # @raise [BTScraperError] If the response is less than 8 bytes or if the scraping request fails
+    # @return [Hash] The method returns a hash with the scraped data
+    # @raise [BTScraperError] If the response is less than 8 bytes
     # @raise [BTScraperError] If the scraping request fails
     # @raise [BTScraperError] If the tracker response with a different transaction_id provided by the client
     # @raise [BTScraperError] After 8 timeouts
