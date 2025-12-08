@@ -1,9 +1,10 @@
 
 # Scrape library for bittorrent trackers
+# @author sherkix
 
 module BTScraper
   # @!visibility private
-  VERSION = '0.1.1'
+  VERSION = '0.1.2'
 
   # Base class for exceptions
   class BTScraperError < StandardError

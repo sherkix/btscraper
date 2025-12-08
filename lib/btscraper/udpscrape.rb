@@ -10,11 +10,10 @@ module BTScraper
   Actionerr = 3 # Scrape Error
   Defaulttimeout = 15 # Default timeout is 15s
   Retries = 8 # Maximum number of retransmission
-  Sha1_regex = /^[0-9a-f]{40}$/ # Regex to check SHA1 infohashes
   
   # @author sherkix 
   # @see https://bittorrent.org/beps/bep_0015.html BEP 15
-  # This class permits you to scrape an UDP torrent tracker according to BEP 15
+  # This class permits you to scrape an UDP torrent tracker according to the BEP 15
   class UDPScrape
     
     attr_reader :tracker, :info_hash, :hostname, :port
@@ -32,7 +31,7 @@ module BTScraper
     #
     # Create a new UDPScrape object 
     # 
-    # @param tracker [String] Bittorrent tracker server
+    # @param tracker [String] Bittorrent UDP tracker server
     # @param info_hash [Array<String>, String] Array of infohashes or single infohash
     #
     # 
@@ -50,17 +49,17 @@ module BTScraper
         raise TypeError, "String or Array excpected, got #{info_hash.class}"
       end
       
-      # Maximum number of infohashes is 74 according to BEP 15
+      # Maximum number of infohashes is 74
       if info_hash.instance_of? Array and info_hash.count > 74
         raise BTScraperError, 'The number of infohashes must be less than 74'
       end
 
       if info_hash.instance_of? String
         info_hash.downcase!
-        check_info_hash Array(info_hash)
+        BTScraper.check_info_hash Array(info_hash)
       else
         info_hash.map(&:downcase!)
-        check_info_hash info_hash
+        BTScraper.check_info_hash info_hash
       end
       @tracker = tracker 
       @hostname = URI(@tracker).hostname
@@ -72,7 +71,7 @@ module BTScraper
     # @return [Hash] The method returns a hash with the scraped data
     # @raise [BTScraperError] If the response is less than 8 bytes
     # @raise [BTScraperError] If the scraping request fails
-    # @raise [BTScraperError] If the tracker response with a different transaction_id provided by the client
+    # @raise [BTScraperError] If the tracker responds with a different transaction_id provided by the client
     # @raise [BTScraperError] After 8 timeouts
     def scrape
       attempt = 0
@@ -97,7 +96,7 @@ module BTScraper
         end
       rescue Timeout::Error
         attempt+=1
-        puts "#{attempt} Request to #{@hostname} timed out, retying after #{Defaulttimeout * 2 ** attempt}s"
+        puts "#{attempt} Request to #{@hostname} timed out, retying after #{Defaulttimeout * 2**attempt}s"
         retry if attempt <= Retries
         raise BTScraperError, 'Max retries exceeded'
       ensure
@@ -109,7 +108,7 @@ module BTScraper
     
     private
 
-    # @return [Array<Integer>] This method makes request to the bittorrent tracker to get a connection_id
+    # @return [Array<Integer>] This method makes a request to the bittorrent tracker to get a connection_id
     def get_connection_id
       attempt = 0
       client = connect_to_tracker
@@ -132,7 +131,7 @@ module BTScraper
         end
       rescue Timeout::Error
         attempt+=1
-        puts "#{attempt} Request to #{@hostname} timed out, retrying after #{Defaulttimeout * 2 ** attempt}s"
+        puts "#{attempt} Request to #{@hostname} timed out, retrying after #{Defaulttimeout * 2**attempt}s"
         retry if attempt <= Retries
         raise BTScraperError, 'Max retries exceeded'
       ensure
@@ -149,10 +148,6 @@ module BTScraper
 
     def rand_transaction_id
       rand(0..4294967295)
-    end
-
-    def check_info_hash(info_hash)
-      info_hash.each{|x| raise BTScraperError, 'Invalid infohash provided' unless x.match?(Sha1_regex)}
     end
 
     def create_scrape_hash(info_hash, response, hash)

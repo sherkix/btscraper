@@ -12,7 +12,11 @@ Gem::Specification.new do |s|
   s.add_dependency 'uri'
   s.add_dependency 'binascii'
   s.add_dependency 'timeout'
+  s.add_dependency 'bencode'
+  s.add_dependency 'httparty'
+
   s.add_development_dependency 'minitest'
+
   s.required_ruby_version = '>= 2.7.8'
   s.files = Dir['lib/**/*.rb']
 end
