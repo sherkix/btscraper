@@ -96,7 +96,7 @@ module BTScraper
         end
       rescue Timeout::Error
         attempt+=1
-        puts "#{attempt} Request to #{@hostname} timed out, retying after #{Defaulttimeout * 2**attempt}s"
+        puts "#{attempt} Request to #{@hostname} timed out, retrying after #{Defaulttimeout * 2**attempt}s"
         retry if attempt <= Retries
         raise BTScraperError, 'Max retries exceeded'
       ensure
